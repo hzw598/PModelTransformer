@@ -13,6 +13,9 @@
 		54D6F2CE1DD1D2DF00501BE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54D6F2CC1DD1D2DF00501BE5 /* Main.storyboard */; };
 		54D6F2D01DD1D2DF00501BE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54D6F2CF1DD1D2DF00501BE5 /* Assets.xcassets */; };
 		54D6F2D31DD1D2DF00501BE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54D6F2D11DD1D2DF00501BE5 /* LaunchScreen.storyboard */; };
+		54D6F2DE1DD1D40F00501BE5 /* NSObject+PModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D6F2DD1DD1D40F00501BE5 /* NSObject+PModel.m */; };
+		54D6F2E31DD1D49300501BE5 /* School.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D6F2E01DD1D49300501BE5 /* School.m */; };
+		54D6F2E41DD1D49300501BE5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D6F2E21DD1D49300501BE5 /* User.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,14 @@
 		54D6F2CF1DD1D2DF00501BE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54D6F2D21DD1D2DF00501BE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54D6F2D41DD1D2DF00501BE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54D6F2DB1DD1D3D000501BE5 /* PModelKeyPathMapProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PModelKeyPathMapProtocol.h; sourceTree = "<group>"; };
+		54D6F2DC1DD1D40F00501BE5 /* NSObject+PModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PModel.h"; sourceTree = "<group>"; };
+		54D6F2DD1DD1D40F00501BE5 /* NSObject+PModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PModel.m"; sourceTree = "<group>"; };
+		54D6F2DF1DD1D49300501BE5 /* School.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = School.h; sourceTree = "<group>"; };
+		54D6F2E01DD1D49300501BE5 /* School.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = School.m; sourceTree = "<group>"; };
+		54D6F2E11DD1D49300501BE5 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		54D6F2E21DD1D49300501BE5 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		54D6F2E51DD1D50200501BE5 /* PModelTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PModelTransformer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +69,11 @@
 		54D6F2C21DD1D2DF00501BE5 /* PModelTransformer */ = {
 			isa = PBXGroup;
 			children = (
+				54D6F2DF1DD1D49300501BE5 /* School.h */,
+				54D6F2E01DD1D49300501BE5 /* School.m */,
+				54D6F2E11DD1D49300501BE5 /* User.h */,
+				54D6F2E21DD1D49300501BE5 /* User.m */,
+				54D6F2DA1DD1D3A500501BE5 /* lib */,
 				54D6F2C61DD1D2DF00501BE5 /* AppDelegate.h */,
 				54D6F2C71DD1D2DF00501BE5 /* AppDelegate.m */,
 				54D6F2C91DD1D2DF00501BE5 /* ViewController.h */,
@@ -77,6 +93,17 @@
 				54D6F2C41DD1D2DF00501BE5 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		54D6F2DA1DD1D3A500501BE5 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				54D6F2DB1DD1D3D000501BE5 /* PModelKeyPathMapProtocol.h */,
+				54D6F2DC1DD1D40F00501BE5 /* NSObject+PModel.h */,
+				54D6F2DD1DD1D40F00501BE5 /* NSObject+PModel.m */,
+				54D6F2E51DD1D50200501BE5 /* PModelTransformer.h */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +177,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54D6F2DE1DD1D40F00501BE5 /* NSObject+PModel.m in Sources */,
+				54D6F2E31DD1D49300501BE5 /* School.m in Sources */,
+				54D6F2E41DD1D49300501BE5 /* User.m in Sources */,
 				54D6F2CB1DD1D2DF00501BE5 /* ViewController.m in Sources */,
 				54D6F2C81DD1D2DF00501BE5 /* AppDelegate.m in Sources */,
 				54D6F2C51DD1D2DF00501BE5 /* main.m in Sources */,

@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "User.h"
+#import "PModelTransformer.h"
 
 @interface ViewController ()
 
@@ -16,7 +18,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    NSDictionary *jsonDictionary = @{@"id":@1, @"name":@"Allen", @"age":@18, @"schools":@[@{@"id":@1, @"name":@"ccnu", @"city":@"wuhan"},@{@"id":@2, @"name":@"csnu", @"city":@"guangzhou"}]};
+    
+    User *user = [User initWithJSONDictionary:jsonDictionary];
+    NSLog(@"user = %@", [user pm_toDictionry]);
 }
 
 
