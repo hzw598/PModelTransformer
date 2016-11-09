@@ -15,7 +15,7 @@
  *
  *  @return 映射字典NSDictionary
  */
-+ (NSDictionary *)pm_modelKeyToJSONKey {
++ (NSDictionary *)pm_modelKeyByJSONKey {
     return @{
              @"ids":@"id",
              @"name":@"name",
