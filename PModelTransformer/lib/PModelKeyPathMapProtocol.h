@@ -16,7 +16,7 @@
  *
  *  @return 映射字典NSDictionary
  */
-+ (NSDictionary *)pm_modelKeyToJSONKey;
++ (NSDictionary *)pm_modelKeyByJSONKey;
 
 /**
  *  模型属性名与自定义类的映射

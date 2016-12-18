@@ -292,4 +292,53 @@
     return dict;
 }
 
+/**
+ *  将对象转化为键值对信息，忽略空值
+ *
+ *  @return 键值对
+ */
+- (NSDictionary *)pm_ignoreNullToDictionry {
+    //获取类的属性列表
+    NSArray *modelKeys = [[self class] pm_propertyNameArray];
+    
+    //获取类的组合类对象的对应键名
+    NSDictionary *keyClassDictionary = [[self class] pm_modelKeyClassDictionary];
+    //获取类的组合类对象（数组）的对应键名
+    NSDictionary *keyClassArrayDictionary = [[self class] pm_arrayKeyClassDictionary];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    //逐个属性列表转化成键值对
+    [modelKeys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id value = [self valueForKey:obj];
+        if (value) {
+            //如果包含组合类对象（数组）
+            if (keyClassArrayDictionary && [value isKindOfClass:[NSArray class]]) {
+                NSString *clazzName = keyClassArrayDictionary[obj];
+                if (clazzName) {
+                    //直接强制转换为数组对象
+                    NSArray *modelArray = (NSArray *)value;
+                    NSMutableArray *modelDictionaryArray = [NSMutableArray arrayWithCapacity:modelArray.count];
+                    //将数组对象逐个转化为dictionary
+                    for (NSObject<PModelKeyPathMapProtocol> *model in modelArray) {
+                        [modelDictionaryArray addObject:[model pm_toDictionry]];
+                    }
+                    value = [modelDictionaryArray copy];
+                }
+            } else if (keyClassDictionary) {
+                //如果包含单个组合类对象
+                NSString *clazzName = keyClassDictionary[obj];
+                if (clazzName) {
+                    //将对象转化为dictionary
+                    NSObject<PModelKeyPathMapProtocol> *model = (NSObject<PModelKeyPathMapProtocol> *)value;
+                    NSDictionary *modelDictionary = [model pm_toDictionry];
+                    value = [modelDictionary copy];
+                }
+            }
+            [dict setObject:value forKey:obj];
+        }
+    }];
+    
+    return dict;
+}
+
 @end

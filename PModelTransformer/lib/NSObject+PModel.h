@@ -37,10 +37,17 @@
 + (NSArray *)arrayWithJSONArray:(NSArray *)jsonArray;
 
 /**
- *  将对象转化为键值对信息
+ *  将对象转化为键值对信息，不忽略空值
  *
  *  @return 键值对
  */
 - (NSDictionary *)pm_toDictionry;
+
+/**
+ *  将对象转化为键值对信息，忽略空值
+ *
+ *  @return 键值对
+ */
+- (NSDictionary *)pm_ignoreNullToDictionry;
 
 @end
