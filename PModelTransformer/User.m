@@ -17,10 +17,7 @@
  */
 + (NSDictionary *)pm_modelKeyByJSONKey {
     return @{
-             @"ids":@"id",
-             @"name":@"name",
-             @"age":@"age",
-             @"schools":@"schools"
+             @"ids":@"id"
              };
 }
 

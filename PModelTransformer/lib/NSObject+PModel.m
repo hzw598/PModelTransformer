@@ -11,6 +11,42 @@
 
 @implementation NSObject (PModel)
 
+
+#pragma mark -private
+/**
+ *  获取模型属性名字典
+ *
+ *  @return 属性名字典NSDictionary
+ */
++ (NSDictionary<NSString *, NSString *> *)pm_propertyMapKeyDictionary {
+    
+    Class clazz = [self class];
+    NSString *clazzName = NSStringFromClass(clazz);
+    //递归截止
+    if ([clazzName isEqualToString:@"NSObject"]) {
+        return @{};
+    }
+    
+    unsigned int count;
+    objc_property_t *propertyList = class_copyPropertyList(clazz, &count);
+    NSMutableDictionary *propertyMapKeyDictionary = [NSMutableDictionary dictionaryWithCapacity:count];
+    //遍历类属性
+    for (unsigned int i=0; i<count; i++) {
+        NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertyList[i])];
+        [propertyMapKeyDictionary setObject:propertyName forKey:propertyName];
+    }
+    
+    free(propertyList);
+    
+    //递归遍历父类属性
+    Class superClazz = [self superclass];
+    [propertyMapKeyDictionary addEntriesFromDictionary:[superClazz pm_propertyMapKeyDictionary]];
+    
+    return propertyMapKeyDictionary;
+}
+
+
+#pragma mark -Public
 /**
  *  模型属性名与JSON数据的对应属性名
  *
@@ -180,6 +216,20 @@
     //获取类的组合类对象（数组）的对应键名
     NSDictionary *keyClassArrayDictionary = [[self class] pm_arrayKeyClassDictionary];
     
+    //拼接键名列表
+    if (mapKeyDictionary) {
+        //对象属性列表
+        NSDictionary *propertyMapKeyDictionary = [self pm_propertyMapKeyDictionary];
+        
+        if (mapKeyDictionary.allKeys.count != propertyMapKeyDictionary.allKeys.count) {
+            NSMutableDictionary *newMapKeyDictionary = [propertyMapKeyDictionary mutableCopy];
+            [newMapKeyDictionary addEntriesFromDictionary:mapKeyDictionary];
+            mapKeyDictionary = newMapKeyDictionary;
+            
+            NSLog(@"mapKeyDictionary = %@", mapKeyDictionary);
+        }
+    }
+    
     //如果有映射属性（自定义映射)
     if (mapKeyDictionary) {
         return [self initWithJSONDictionary:jsonDictionary
@@ -187,8 +237,9 @@
                          keyClassDictionary:keyClassDictionary
                     keyClassArrayDictionary:keyClassArrayDictionary];
     } else {
-        //如果没有映射属性（即不需要自定义映射，model与json的键名一一对应）
+        //对象属性列表
         NSArray *modelKeys = [self pm_propertyNameArray];
+        //如果没有映射属性（即不需要自定义映射，model与json的键名一一对应）
         return [self initWithJSONDictionary:jsonDictionary
                            modelKeys:modelKeys
                   keyClassDictionary:keyClassDictionary
@@ -209,7 +260,6 @@
     }
     
     NSMutableArray *modelArray = [NSMutableArray arrayWithCapacity:jsonArray.count];
-    
     //对象属性列表与json数据的键映射
     NSDictionary *mapKeyDictionary = [self pm_modelKeyByJSONKey];
     //获取类的组合类对象的对应键名
@@ -217,6 +267,19 @@
     //获取类的组合类对象（数组）的对应键名
     NSDictionary *keyClassArrayDictionary = [[self class] pm_arrayKeyClassDictionary];
     
+    //拼接键名列表
+    if (mapKeyDictionary) {
+        //对象属性列表
+        NSDictionary *propertyMapKeyDictionary = [self pm_propertyMapKeyDictionary];
+        
+        if (mapKeyDictionary.allKeys.count != propertyMapKeyDictionary.allKeys.count) {
+            NSMutableDictionary *newMapKeyDictionary = [propertyMapKeyDictionary mutableCopy];
+            [newMapKeyDictionary addEntriesFromDictionary:mapKeyDictionary];
+            mapKeyDictionary = newMapKeyDictionary;
+            
+            NSLog(@"mapKeyDictionary = %@", mapKeyDictionary);
+        }
+    }
     
     if (mapKeyDictionary) {
         for (NSDictionary *jsonDictionary in jsonArray) {
@@ -227,6 +290,7 @@
             [modelArray addObject:objc];
         }
     } else {
+        //对象属性列表
         NSArray *modelKeys = [self pm_propertyNameArray];
         for (NSDictionary *jsonDictionary in jsonArray) {
             NSObject<PModelKeyPathMapProtocol> *objc = [self initWithJSONDictionary:jsonDictionary
@@ -320,7 +384,7 @@
                     NSMutableArray *modelDictionaryArray = [NSMutableArray arrayWithCapacity:modelArray.count];
                     //将数组对象逐个转化为dictionary
                     for (NSObject<PModelKeyPathMapProtocol> *model in modelArray) {
-                        [modelDictionaryArray addObject:[model pm_toDictionry]];
+                        [modelDictionaryArray addObject:[model pm_ignoreNullToDictionry]];
                     }
                     value = [modelDictionaryArray copy];
                 }
@@ -330,7 +394,7 @@
                 if (clazzName) {
                     //将对象转化为dictionary
                     NSObject<PModelKeyPathMapProtocol> *model = (NSObject<PModelKeyPathMapProtocol> *)value;
-                    NSDictionary *modelDictionary = [model pm_toDictionry];
+                    NSDictionary *modelDictionary = [model pm_ignoreNullToDictionry];
                     value = [modelDictionary copy];
                 }
             }

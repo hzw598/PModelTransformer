@@ -17,9 +17,7 @@
  */
 + (NSDictionary *)pm_modelKeyByJSONKey {
     return @{
-             @"ids":@"id",
-             @"name":@"name",
-             @"city":@"city"
+             @"ids":@"id"
              };
 }
 
