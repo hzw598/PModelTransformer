@@ -27,12 +27,21 @@
         return @{};
     }
     
+    //过滤系统属性
+    NSArray *filters = @[@"superclass", @"description", @"debugDescription", @"hash"];
+    
     unsigned int count;
     objc_property_t *propertyList = class_copyPropertyList(clazz, &count);
     NSMutableDictionary *propertyMapKeyDictionary = [NSMutableDictionary dictionaryWithCapacity:count];
     //遍历类属性
     for (unsigned int i=0; i<count; i++) {
-        NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertyList[i])];
+        objc_property_t prop = propertyList[i];
+        //过滤系统属性
+        NSString *key = [NSString stringWithUTF8String:property_getName(prop)];
+        if ([filters containsObject:key]) {
+            continue;
+        }
+        NSString *propertyName = [NSString stringWithUTF8String:property_getName(prop)];
         [propertyMapKeyDictionary setObject:propertyName forKey:propertyName];
     }
     
@@ -88,12 +97,21 @@
         return @[];
     }
     
+    //过滤系统属性
+    NSArray *filters = @[@"superclass", @"description", @"debugDescription", @"hash"];
+    
     unsigned int count;
     objc_property_t *propertyList = class_copyPropertyList(clazz, &count);
     NSMutableArray *propertyArray = [NSMutableArray arrayWithCapacity:count];
     //遍历类属性
     for (unsigned int i=0; i<count; i++) {
-        NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertyList[i])];
+        objc_property_t prop = propertyList[i];
+        //过滤系统属性
+        NSString *key = [NSString stringWithUTF8String:property_getName(prop)];
+        if ([filters containsObject:key]) {
+            continue;
+        }
+        NSString *propertyName = [NSString stringWithUTF8String:property_getName(prop)];
         [propertyArray addObject:propertyName];
     }
     
